@@ -15,6 +15,7 @@ import '../../../shared/widgets/delete_dialog.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/dps_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class DpsScreen extends ConsumerWidget {
   const DpsScreen({super.key});
@@ -150,8 +151,8 @@ class _DpsCard extends ConsumerWidget {
                   color: AppColors.primaryContainer,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(AppIcons.dps,
-                    color: AppColors.primary, size: 20),
+                child: const Center(child: AppIcon(AppIcons.dps,
+                    color: AppColors.primary, size: 18)),
               ),
               const SizedBox(width: AppSizes.sm),
               Expanded(
@@ -180,7 +181,7 @@ class _DpsCard extends ConsumerWidget {
                 ],
               ),
               IconButton(
-                icon: const Icon(AppIcons.delete,
+                icon: const AppIcon(AppIcons.delete,
                     color: AppColors.textSecondary, size: 18),
                 onPressed: () async {
                   if (await showDeleteDialog(context)) {

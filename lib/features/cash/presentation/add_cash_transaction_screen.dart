@@ -9,6 +9,7 @@ import '../../../core/extensions/extensions.dart';
 import '../../../data/models/cash_account_model.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/cash_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddCashTransactionScreen extends ConsumerStatefulWidget {
   const AddCashTransactionScreen({super.key});
@@ -41,7 +42,7 @@ class _AddCashTransactionScreenState
       appBar: AppBar(
         title: const Text('Cash Transaction'),
         leading: IconButton(
-            icon: const Icon(AppIcons.back), onPressed: () => context.pop()),
+            icon: const AppIcon(AppIcons.back), onPressed: () => context.pop()),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.screenPadding),

@@ -10,6 +10,7 @@ import '../../../data/models/dps_model.dart';
 import '../../../data/repositories/dps_repository.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/dps_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddDpsScreen extends ConsumerStatefulWidget {
   final int? editId;
@@ -69,7 +70,7 @@ class _AddDpsScreenState extends ConsumerState<AddDpsScreen> {
         title:
             Text(_editModel != null ? 'Edit DPS' : 'Add DPS'),
         leading: IconButton(
-            icon: const Icon(AppIcons.back), onPressed: () => context.pop()),
+            icon: const AppIcon(AppIcons.back), onPressed: () => context.pop()),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.screenPadding),
@@ -131,7 +132,7 @@ class _AddDpsScreenState extends ConsumerState<AddDpsScreen> {
                       controller: TextEditingController(
                           text: _startDate.displayDate),
                       readOnly: true,
-                      prefix: const Icon(AppIcons.calendar, size: 18),
+                      prefix: const AppIcon(AppIcons.calendar, size: 18),
                       onTap: () => _pickDate(context, isStart: true),
                     ),
                   ),
@@ -142,7 +143,7 @@ class _AddDpsScreenState extends ConsumerState<AddDpsScreen> {
                       controller: TextEditingController(
                           text: _maturityDate.displayDate),
                       readOnly: true,
-                      prefix: const Icon(AppIcons.calendar, size: 18),
+                      prefix: const AppIcon(AppIcons.calendar, size: 18),
                       onTap: () => _pickDate(context, isStart: false),
                     ),
                   ),

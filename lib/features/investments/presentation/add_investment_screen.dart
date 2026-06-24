@@ -12,6 +12,7 @@ import '../../../data/models/investment_model.dart';
 import '../../../data/repositories/investment_repository.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/investment_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddInvestmentScreen extends ConsumerStatefulWidget {
   final int? editId;
@@ -75,7 +76,7 @@ class _AddInvestmentScreenState
       appBar: AppBar(
         title: Text(isEdit ? 'Edit Investment' : 'Add Investment'),
         leading: IconButton(
-            icon: const Icon(AppIcons.back), onPressed: () => context.pop()),
+            icon: const AppIcon(AppIcons.back), onPressed: () => context.pop()),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.screenPadding),
@@ -176,7 +177,7 @@ class _AddInvestmentScreenState
                 controller: TextEditingController(
                     text: _purchaseDate.displayDate),
                 readOnly: true,
-                prefix: const Icon(AppIcons.calendar, size: 18),
+                prefix: const AppIcon(AppIcons.calendar, size: 18),
                 onTap: () {
                   showCupertinoModalPopup(
                     context: context,

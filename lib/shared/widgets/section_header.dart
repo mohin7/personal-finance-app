@@ -26,7 +26,6 @@ class SectionHeader extends StatelessWidget {
             fontSize: AppSizes.fontLg,
             fontWeight: FontWeight.w700,
             color: context.primaryText,
-            letterSpacing: -0.3,
           ),
         ),
         if (action != null)

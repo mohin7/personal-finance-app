@@ -9,6 +9,7 @@ import '../models/fdr_model.dart';
 import '../models/sanchayapatra_model.dart';
 import '../models/investment_model.dart';
 import '../models/budget_model.dart';
+import '../models/loan_model.dart';
 
 class IsarService {
   static Future<Isar> initialize() async {
@@ -25,6 +26,7 @@ class IsarService {
         SanchayapatraModelSchema,
         InvestmentModelSchema,
         BudgetModelSchema,
+        LoanModelSchema,
       ],
       directory: dir.path,
       name: 'takatrack',

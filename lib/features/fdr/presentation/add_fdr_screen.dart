@@ -10,6 +10,7 @@ import '../../../data/models/fdr_model.dart';
 import '../../../data/repositories/fdr_repository.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/fdr_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddFdrScreen extends ConsumerStatefulWidget {
   final int? editId;
@@ -67,7 +68,7 @@ class _AddFdrScreenState extends ConsumerState<AddFdrScreen> {
       appBar: AppBar(
         title: Text(_editModel != null ? 'Edit FDR' : 'Add FDR'),
         leading: IconButton(
-            icon: const Icon(AppIcons.back), onPressed: () => context.pop()),
+            icon: const AppIcon(AppIcons.back), onPressed: () => context.pop()),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.screenPadding),
@@ -118,7 +119,7 @@ class _AddFdrScreenState extends ConsumerState<AddFdrScreen> {
                   controller: TextEditingController(
                       text: _startDate.displayDate),
                   readOnly: true,
-                  prefix: const Icon(AppIcons.calendar, size: 18),
+                  prefix: const AppIcon(AppIcons.calendar, size: 18),
                   onTap: () => _pickDate(true),
                 )),
                 const SizedBox(width: AppSizes.sm),
@@ -128,7 +129,7 @@ class _AddFdrScreenState extends ConsumerState<AddFdrScreen> {
                   controller: TextEditingController(
                       text: _maturityDate.displayDate),
                   readOnly: true,
-                  prefix: const Icon(AppIcons.calendar, size: 18),
+                  prefix: const AppIcon(AppIcons.calendar, size: 18),
                   onTap: () => _pickDate(false),
                 )),
               ]),

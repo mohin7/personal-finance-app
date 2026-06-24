@@ -32,7 +32,6 @@ class AmountDisplay extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: FontWeight.w700,
         color: color ?? Theme.of(context).colorScheme.onSurface,
-        letterSpacing: -0.5,
         height: 1.1,
       ),
     );

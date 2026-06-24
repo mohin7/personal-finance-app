@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constants/app_colors.dart';
@@ -6,8 +8,20 @@ import '../constants/app_sizes.dart';
 class AppTheme {
   AppTheme._();
 
+  // Resolves to iOS/macOS → SF Pro, Android/Windows → Roboto.
+  // Typography.material2021 with the correct platform makes Flutter pick the
+  // system font instead of always falling back to Roboto.
+  static TargetPlatform get _platform {
+    if (kIsWeb) return TargetPlatform.android;
+    if (Platform.isIOS) return TargetPlatform.iOS;
+    if (Platform.isMacOS) return TargetPlatform.macOS;
+    if (Platform.isWindows) return TargetPlatform.windows;
+    return TargetPlatform.android;
+  }
+
   static ThemeData get lightTheme => ThemeData(
         useMaterial3: true,
+        typography: Typography.material2021(platform: _platform),
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primary,
@@ -35,7 +49,6 @@ class AppTheme {
             fontSize: AppSizes.fontLg,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
-            letterSpacing: -0.4,
           ),
           iconTheme: IconThemeData(color: AppColors.primary, size: 24),
           actionsIconTheme: IconThemeData(color: AppColors.primary, size: 24),
@@ -92,7 +105,6 @@ class AppTheme {
             textStyle: const TextStyle(
               fontSize: AppSizes.fontLg,
               fontWeight: FontWeight.w600,
-              letterSpacing: -0.3,
             ),
           ),
         ),
@@ -170,6 +182,7 @@ class AppTheme {
 
   static ThemeData get darkTheme => ThemeData(
         useMaterial3: true,
+        typography: Typography.material2021(platform: _platform),
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryLight,
@@ -182,7 +195,7 @@ class AppTheme {
           error: AppColors.error,
           brightness: Brightness.dark,
         ),
-        scaffoldBackgroundColor: AppColors.backgroundDark,
+        scaffoldBackgroundColor: AppColors.ink,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -197,7 +210,6 @@ class AppTheme {
             fontSize: AppSizes.fontLg,
             fontWeight: FontWeight.w600,
             color: Colors.white,
-            letterSpacing: -0.4,
           ),
           iconTheme: IconThemeData(color: AppColors.primaryLight, size: 24),
           actionsIconTheme: IconThemeData(color: AppColors.primaryLight, size: 24),
@@ -246,7 +258,6 @@ class AppTheme {
             textStyle: const TextStyle(
               fontSize: AppSizes.fontLg,
               fontWeight: FontWeight.w600,
-              letterSpacing: -0.3,
             ),
           ),
         ),

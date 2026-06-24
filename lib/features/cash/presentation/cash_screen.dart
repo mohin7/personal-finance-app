@@ -14,6 +14,7 @@ import '../../../shared/widgets/delete_dialog.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/cash_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class CashScreen extends ConsumerWidget {
   const CashScreen({super.key});
@@ -219,8 +220,8 @@ class _CashAccountCard extends ConsumerWidget {
               color: AppColors.success.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(AppIcons.cash,
-                color: AppColors.success, size: 22),
+            child: const Center(child: AppIcon(AppIcons.cash,
+                color: AppColors.success, size: 18)),
           ),
           const SizedBox(width: AppSizes.sm),
           Expanded(
@@ -244,7 +245,7 @@ class _CashAccountCard extends ConsumerWidget {
               color: AppColors.success),
           const SizedBox(width: 4),
           IconButton(
-            icon: const Icon(AppIcons.delete,
+            icon: const AppIcon(AppIcons.delete,
                 color: AppColors.textSecondary, size: 18),
             onPressed: () async {
               if (await showDeleteDialog(context)) {

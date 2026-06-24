@@ -1,93 +1,78 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class AppIcons {
   AppIcons._();
 
   // ── Bottom nav ──────────────────────────────────────────────────────
-  static const dashboard = CupertinoIcons.house_fill;
-  static const expenses = CupertinoIcons.arrow_up_circle_fill;
-  static const income = CupertinoIcons.arrow_down_circle_fill;
-  static const investments = CupertinoIcons.chart_bar_fill;
-  static const more = CupertinoIcons.ellipsis_circle_fill;
+  static const dashboard  = HugeIcons.strokeRoundedHome01;
+  static const expenses   = HugeIcons.strokeRoundedMoneySend02;
+  static const income     = HugeIcons.strokeRoundedMoneyReceive02;
+  static const investments = HugeIcons.strokeRoundedChartLineData01;
+  static const more       = HugeIcons.strokeRoundedGridView;
 
   // ── Finance ─────────────────────────────────────────────────────────
-  static const wallet = CupertinoIcons.creditcard_fill;
-  static const cash = CupertinoIcons.money_dollar_circle_fill;
-  static const bank = CupertinoIcons.building_2_fill;
-  static const dps = CupertinoIcons.calendar_badge_plus;
-  static const fdr = CupertinoIcons.lock_fill;
-  static const sanchayapatra = CupertinoIcons.doc_text_fill;
-  static const budget = CupertinoIcons.chart_pie_fill;
-  static const reports = CupertinoIcons.chart_bar_square_fill;
-  static const settings = CupertinoIcons.gear_alt_fill;
-  static const netWorth = CupertinoIcons.chart_bar_fill;
+  static const wallet          = HugeIcons.strokeRoundedWallet01;
+  static const cash            = HugeIcons.strokeRoundedCash01;
+  static const bank            = HugeIcons.strokeRoundedBank;
+  static const dps             = HugeIcons.strokeRoundedPiggyBank;
+  static const fdr             = HugeIcons.strokeRoundedLockPassword;
+  static const sanchayapatra   = HugeIcons.strokeRoundedFile01;
+  static const budget          = HugeIcons.strokeRoundedPieChart;
+  static const reports         = HugeIcons.strokeRoundedBarChart;
+  static const settings        = HugeIcons.strokeRoundedSettings01;
+  static const netWorth        = HugeIcons.strokeRoundedAnalyticsUp;
 
   // ── Actions ─────────────────────────────────────────────────────────
-  static const add = CupertinoIcons.add_circled_solid;
-  static const edit = CupertinoIcons.pencil;
-  static const delete = CupertinoIcons.trash_fill;
-  static const search = CupertinoIcons.search;
-  static const filter = CupertinoIcons.slider_horizontal_3;
-  static const back = CupertinoIcons.chevron_back;
-  static const close = CupertinoIcons.xmark_circle_fill;
-  static const check = CupertinoIcons.checkmark_circle_fill;
-  static const calendar = CupertinoIcons.calendar;
-  static const notification = CupertinoIcons.bell_fill;
-  static const share = CupertinoIcons.share;
-  static const download = CupertinoIcons.arrow_down_to_line;
+  static const loan         = HugeIcons.strokeRoundedAgreement01;
+  static const add          = HugeIcons.strokeRoundedAddCircle;
+  static const edit         = HugeIcons.strokeRoundedPencilEdit01;
+  static const delete       = HugeIcons.strokeRoundedDelete01;
+  static const search       = HugeIcons.strokeRoundedSearch01;
+  static const filter       = HugeIcons.strokeRoundedFilter;
+  static const close        = HugeIcons.strokeRoundedCancel01;
+  static const check        = HugeIcons.strokeRoundedCheckmarkCircle01;
+  static const calendar     = HugeIcons.strokeRoundedCalendar01;
+  static const notification = HugeIcons.strokeRoundedNotification01;
+  static const share        = HugeIcons.strokeRoundedShare01;
+  static const download     = HugeIcons.strokeRoundedDownload01;
+  static const back         = HugeIcons.strokeRoundedArrowLeft01;
+
+  // ── Status / Security ───────────────────────────────────────────────
+  static const lock      = HugeIcons.strokeRoundedLockPassword;
+  static const biometric = HugeIcons.strokeRoundedFingerPrint;
+  static const profit    = HugeIcons.strokeRoundedAnalyticsUp;
+  static const loss      = HugeIcons.strokeRoundedAnalyticsDown;
 
   // ── Category icons ───────────────────────────────────────────────────
-  static const categoryFood = CupertinoIcons.cart_fill;
-  static const categoryTransport = CupertinoIcons.car_fill;
-  static const categoryRent = CupertinoIcons.house_fill;
-  static const categoryUtilities = CupertinoIcons.bolt_fill;
-  static const categoryShopping = CupertinoIcons.bag_fill;
-  static const categoryMobile = CupertinoIcons.device_phone_portrait;
-  static const categoryInternet = CupertinoIcons.wifi;
-  static const categoryMedical = CupertinoIcons.heart_fill;
-  static const categoryEducation = CupertinoIcons.book_fill;
-  static const categoryFamily = CupertinoIcons.person_2_fill;
-  static const categoryEntertainment = CupertinoIcons.film_fill;
-  static const categoryTravel = CupertinoIcons.airplane;
-  static const categoryOther = CupertinoIcons.ellipsis_circle_fill;
+  static const categoryFood          = HugeIcons.strokeRoundedRestaurant01;
+  static const categoryTransport     = HugeIcons.strokeRoundedCar01;
+  static const categoryRent          = HugeIcons.strokeRoundedHome01;
+  static const categoryUtilities     = HugeIcons.strokeRoundedFlash;
+  static const categoryShopping      = HugeIcons.strokeRoundedShoppingBag01;
+  static const categoryMobile        = HugeIcons.strokeRoundedPhoneLock;
+  static const categoryInternet      = HugeIcons.strokeRoundedWifi01;
+  static const categoryMedical       = HugeIcons.strokeRoundedHospital01;
+  static const categoryEducation     = HugeIcons.strokeRoundedBookOpen01;
+  static const categoryFamily        = HugeIcons.strokeRoundedGroup;
+  static const categoryEntertainment = HugeIcons.strokeRoundedGameController01;
+  static const categoryTravel        = HugeIcons.strokeRoundedAirplane01;
+  static const categoryOther         = HugeIcons.strokeRoundedMoreHorizontal;
 
-  // ── Status ──────────────────────────────────────────────────────────
-  static const profit = Icons.trending_up_rounded;
-  static const loss = Icons.trending_down_rounded;
-  static const neutral = Icons.trending_flat_rounded;
-  static const lock = CupertinoIcons.lock_fill;
-  static const biometric = Icons.fingerprint;
-  static const pin = CupertinoIcons.number_circle_fill;
-
-  static IconData categoryIcon(String category) {
+  static List<List<dynamic>> categoryIcon(String category) {
     switch (category.toLowerCase()) {
-      case 'food':
-        return categoryFood;
-      case 'transport':
-        return categoryTransport;
-      case 'rent':
-        return categoryRent;
-      case 'utilities':
-        return categoryUtilities;
-      case 'shopping':
-        return categoryShopping;
-      case 'mobile recharge':
-        return categoryMobile;
-      case 'internet':
-        return categoryInternet;
-      case 'medical':
-        return categoryMedical;
-      case 'education':
-        return categoryEducation;
-      case 'family':
-        return categoryFamily;
-      case 'entertainment':
-        return categoryEntertainment;
-      case 'travel':
-        return categoryTravel;
-      default:
-        return categoryOther;
+      case 'food':          return categoryFood;
+      case 'transport':     return categoryTransport;
+      case 'rent':          return categoryRent;
+      case 'utilities':     return categoryUtilities;
+      case 'shopping':      return categoryShopping;
+      case 'mobile recharge': return categoryMobile;
+      case 'internet':      return categoryInternet;
+      case 'medical':       return categoryMedical;
+      case 'education':     return categoryEducation;
+      case 'family':        return categoryFamily;
+      case 'entertainment': return categoryEntertainment;
+      case 'travel':        return categoryTravel;
+      default:              return categoryOther;
     }
   }
 }

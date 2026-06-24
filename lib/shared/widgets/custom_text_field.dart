@@ -71,8 +71,17 @@ class TTTextField extends StatelessWidget {
           ),
           decoration: InputDecoration(
             hintText: hint,
-            prefixIcon: prefix,
+            prefixIcon: prefix != null
+                ? SizedBox(
+                    width: 48,
+                    child: Center(child: prefix),
+                  )
+                : null,
+            prefixIconConstraints: const BoxConstraints(),
             suffixIcon: suffix,
+            suffixIconConstraints: suffix != null
+                ? const BoxConstraints(minWidth: 40, minHeight: 40)
+                : null,
           ),
         ),
       ],
@@ -132,7 +141,6 @@ class TTAmountField extends StatelessWidget {
                 fontSize: 36,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primary,
-                letterSpacing: -1,
               ),
               decoration: const InputDecoration(
                 border: InputBorder.none,

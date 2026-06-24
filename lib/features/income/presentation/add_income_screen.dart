@@ -11,6 +11,7 @@ import '../../../data/models/income_model.dart';
 import '../../../data/repositories/income_repository.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/income_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddIncomeScreen extends ConsumerStatefulWidget {
   final int? editId;
@@ -65,7 +66,7 @@ class _AddIncomeScreenState extends ConsumerState<AddIncomeScreen> {
       appBar: AppBar(
         title: Text(isEdit ? 'Edit Income' : 'Add Income'),
         leading: IconButton(
-          icon: const Icon(AppIcons.back),
+          icon: const AppIcon(AppIcons.back),
           onPressed: () => context.pop(),
         ),
       ),
@@ -127,7 +128,7 @@ class _AddIncomeScreenState extends ConsumerState<AddIncomeScreen> {
                 label: 'Date',
                 controller: TextEditingController(text: _date.displayDate),
                 readOnly: true,
-                prefix: const Icon(AppIcons.calendar, size: 18),
+                prefix: const AppIcon(AppIcons.calendar, size: 18),
                 onTap: () {
                   showCupertinoModalPopup(
                     context: context,

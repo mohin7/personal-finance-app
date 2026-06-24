@@ -13,6 +13,7 @@ import '../../../shared/widgets/delete_dialog.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/budget_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class BudgetsScreen extends ConsumerWidget {
   const BudgetsScreen({super.key});
@@ -182,9 +183,9 @@ class _BudgetCard extends ConsumerWidget {
                       : AppColors.warning.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(AppIcons.categoryIcon(budget.category),
+                child: Center(child: AppIcon(AppIcons.categoryIcon(budget.category),
                     color: isOver ? AppColors.error : AppColors.warning,
-                    size: 20),
+                    size: 18)),
               ),
               const SizedBox(width: AppSizes.sm),
               Expanded(
@@ -225,7 +226,7 @@ class _BudgetCard extends ConsumerWidget {
                 ],
               ),
               IconButton(
-                icon: const Icon(AppIcons.delete,
+                icon: const AppIcon(AppIcons.delete,
                     color: AppColors.textSecondary, size: 18),
                 onPressed: () async {
                   if (await showDeleteDialog(context)) {

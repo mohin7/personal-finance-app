@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+import '../../../shared/widgets/app_icon.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_icons.dart';
@@ -81,6 +83,15 @@ class MoreScreen extends StatelessWidget {
                   route: AppRoutes.reports,
                 ),
                 const SizedBox(height: AppSizes.md),
+                _SectionLabel('Lend & Borrow'),
+                _MoreItem(
+                  icon: HugeIcons.strokeRoundedAgreement01,
+                  label: 'Lend & Borrow',
+                  subtitle: 'Track money given or taken',
+                  color: AppColors.warning,
+                  route: AppRoutes.loans,
+                ),
+                const SizedBox(height: AppSizes.md),
                 _SectionLabel('General'),
                 _MoreItem(
                   icon: AppIcons.settings,
@@ -106,14 +117,13 @@ class _SectionLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8, top: 4),
+      padding: const EdgeInsets.only(bottom: 10, top: 6),
       child: Text(
         label.toUpperCase(),
         style: const TextStyle(
           fontSize: AppSizes.fontXs,
           fontWeight: FontWeight.w700,
           color: AppColors.textSecondary,
-          letterSpacing: 1.0,
         ),
       ),
     );
@@ -121,7 +131,7 @@ class _SectionLabel extends StatelessWidget {
 }
 
 class _MoreItem extends StatelessWidget {
-  final IconData icon;
+  final List<List<dynamic>> icon;
   final String label;
   final String subtitle;
   final Color color;
@@ -138,29 +148,32 @@ class _MoreItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 2),
+      margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
         color: context.cardColor,
         borderRadius: BorderRadius.circular(AppSizes.radiusMd),
       ),
       child: ListTile(
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         leading: Container(
-          width: 40,
-          height: 40,
+          width: 46,
+          height: 46,
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(13),
           ),
-          child: Icon(icon, color: color, size: 20),
+          child: Center(child: AppIcon(icon, color: color, size: 17)),
         ),
         title: Text(label,
             style: const TextStyle(
                 fontSize: AppSizes.fontMd, fontWeight: FontWeight.w600)),
-        subtitle: Text(subtitle,
-            style: const TextStyle(
-                fontSize: AppSizes.fontSm, color: AppColors.textSecondary)),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 1),
+          child: Text(subtitle,
+              style: const TextStyle(
+                  fontSize: AppSizes.fontSm, color: AppColors.textSecondary)),
+        ),
         trailing: const Icon(CupertinoIcons.chevron_right,
             color: AppColors.textSecondary, size: 16),
         onTap: () => context.push(route),

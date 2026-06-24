@@ -10,6 +10,7 @@ import '../../../data/repositories/expense_repository.dart';
 import '../../../data/repositories/income_repository.dart';
 import '../../../shared/widgets/section_header.dart';
 import '../../../shared/widgets/tt_card.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 final _reportMonthProvider = StateProvider<DateTime>(
     (ref) => DateTime(DateTime.now().year, DateTime.now().month));
@@ -183,7 +184,7 @@ class _StatBox extends StatelessWidget {
   final String label;
   final AsyncValue<double> valueAsync;
   final Color color;
-  final IconData icon;
+  final List<List<dynamic>> icon;
   const _StatBox({
     required this.label,
     required this.valueAsync,
@@ -203,7 +204,7 @@ class _StatBox extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, color: color, size: 18),
+            AppIcon(icon, color: color, size: 18),
             const SizedBox(height: 4),
             valueAsync.when(
               data: (v) => Text(v.taka,

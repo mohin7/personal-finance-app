@@ -15,6 +15,7 @@ import '../../../shared/widgets/delete_dialog.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/fdr_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class FdrScreen extends ConsumerWidget {
   const FdrScreen({super.key});
@@ -138,8 +139,8 @@ class _FdrCard extends ConsumerWidget {
                   color: AppColors.primaryContainer,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(AppIcons.fdr,
-                    color: AppColors.primary, size: 20),
+                child: const Center(child: AppIcon(AppIcons.fdr,
+                    color: AppColors.primary, size: 18)),
               ),
               const SizedBox(width: AppSizes.sm),
               Expanded(
@@ -169,7 +170,7 @@ class _FdrCard extends ConsumerWidget {
                 ],
               ),
               IconButton(
-                icon: const Icon(AppIcons.delete,
+                icon: const AppIcon(AppIcons.delete,
                     color: AppColors.textSecondary, size: 18),
                 onPressed: () async {
                   if (await showDeleteDialog(context)) {

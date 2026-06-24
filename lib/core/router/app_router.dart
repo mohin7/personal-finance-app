@@ -23,6 +23,8 @@ import '../../features/budgets/presentation/budgets_screen.dart';
 import '../../features/budgets/presentation/add_budget_screen.dart';
 import '../../features/reports/presentation/reports_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
+import '../../features/loans/presentation/loans_screen.dart';
+import '../../features/loans/presentation/add_loan_screen.dart';
 import '../../shared/widgets/shell_scaffold.dart';
 
 class AppRoutes {
@@ -55,6 +57,9 @@ class AppRoutes {
   static const addBudget = '/budgets/add';
   static const reports = '/reports';
   static const settings = '/settings';
+  static const loans = '/loans';
+  static const addLoan = '/loans/add';
+  static const editLoan = '/loans/edit/:id';
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -221,6 +226,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.settings,
         builder: (ctx, s) => const SettingsScreen(),
+      ),
+
+      // ── Loans ────────────────────────────────────────────────────
+      GoRoute(
+        path: AppRoutes.loans,
+        builder: (ctx, s) => const LoansScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.addLoan,
+        builder: (ctx, s) => AddLoanScreen(
+          type: s.uri.queryParameters['type'] ?? 'lent',
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.editLoan,
+        builder: (ctx, s) => AddLoanScreen(
+          type: s.uri.queryParameters['type'] ?? 'lent',
+          editId: int.tryParse(s.pathParameters['id']!),
+        ),
       ),
     ],
   );

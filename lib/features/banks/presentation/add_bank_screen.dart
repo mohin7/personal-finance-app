@@ -11,6 +11,7 @@ import '../../../data/models/bank_account_model.dart';
 import '../../../data/repositories/bank_repository.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/bank_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddBankScreen extends ConsumerStatefulWidget {
   final int? editId;
@@ -68,7 +69,7 @@ class _AddBankScreenState extends ConsumerState<AddBankScreen> {
       appBar: AppBar(
         title: Text(isEdit ? 'Edit Bank Account' : 'Add Bank Account'),
         leading: IconButton(
-            icon: const Icon(AppIcons.back), onPressed: () => context.pop()),
+            icon: const AppIcon(AppIcons.back), onPressed: () => context.pop()),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.screenPadding),

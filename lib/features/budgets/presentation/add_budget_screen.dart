@@ -12,6 +12,7 @@ import '../../../data/models/budget_model.dart';
 import '../../../data/repositories/budget_repository.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/budget_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddBudgetScreen extends ConsumerStatefulWidget {
   final int? editId;
@@ -60,7 +61,7 @@ class _AddBudgetScreenState extends ConsumerState<AddBudgetScreen> {
         title: Text(
             _editModel != null ? 'Edit Budget' : 'Create Budget'),
         leading: IconButton(
-            icon: const Icon(AppIcons.back), onPressed: () => context.pop()),
+            icon: const AppIcon(AppIcons.back), onPressed: () => context.pop()),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.screenPadding),
@@ -98,7 +99,7 @@ class _AddBudgetScreenState extends ConsumerState<AddBudgetScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(AppIcons.categoryIcon(cat),
+                          AppIcon(AppIcons.categoryIcon(cat),
                               size: 13,
                               color: sel
                                   ? Colors.white

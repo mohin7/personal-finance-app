@@ -88,6 +88,36 @@ final dashboardProvider =
   );
 });
 
+// ── Today's activity feed ─────────────────────────────────────────────────────
+
+class TodayActivity {
+  final String type; // 'expense' | 'income'
+  final String label;
+  final double amount;
+  final DateTime time;
+  const TodayActivity({
+    required this.type,
+    required this.label,
+    required this.amount,
+    required this.time,
+  });
+}
+
+final todayActivityProvider =
+    FutureProvider.autoDispose<List<TodayActivity>>((ref) async {
+  final expenses = await ref.read(expenseRepositoryProvider).getToday();
+  final incomes = await ref.read(incomeRepositoryProvider).getToday();
+
+  final items = <TodayActivity>[
+    ...expenses.map((e) => TodayActivity(
+        type: 'expense', label: e.category, amount: e.amount, time: e.date)),
+    ...incomes.map((i) => TodayActivity(
+        type: 'income', label: i.source, amount: i.amount, time: i.date)),
+  ];
+  items.sort((a, b) => b.time.compareTo(a.time));
+  return items;
+});
+
 // ── 7-day expense/income trend ───────────────────────────────────────────────
 
 class TrendData {

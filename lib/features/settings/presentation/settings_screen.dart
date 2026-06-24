@@ -5,7 +5,13 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_icons.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../core/extensions/extensions.dart';
+import '../../../core/services/biometric_service.dart';
+import '../../../features/dashboard/providers/dashboard_provider.dart';
+import '../../../shared/providers/biometric_provider.dart';
+import '../../../shared/providers/isar_provider.dart';
 import '../../../shared/providers/theme_provider.dart';
+import '../../../shared/providers/user_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -13,6 +19,7 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
+    final biometricEnabled = ref.watch(biometricEnabledProvider);
     final isDark = themeMode == ThemeMode.dark ||
         (themeMode == ThemeMode.system &&
             MediaQuery.platformBrightnessOf(context) == Brightness.dark);
@@ -31,6 +38,9 @@ class SettingsScreen extends ConsumerWidget {
                 horizontal: AppSizes.screenPadding),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
+                _SectionLabel('Profile'),
+                _NameField(),
+                const SizedBox(height: AppSizes.md),
                 _SectionLabel('Appearance'),
                 _SettingCard(
                   child: Row(
@@ -87,7 +97,7 @@ class SettingsScreen extends ConsumerWidget {
                           color: AppColors.info.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(AppIcons.biometric,
+                        child: const AppIcon(AppIcons.biometric,
                             color: AppColors.info, size: 18),
                       ),
                       const SizedBox(width: AppSizes.sm),
@@ -107,9 +117,25 @@ class SettingsScreen extends ConsumerWidget {
                         ),
                       ),
                       CupertinoSwitch(
-                        value: false,
+                        value: biometricEnabled,
                         activeTrackColor: AppColors.info,
-                        onChanged: (_) {},
+                        onChanged: (v) async {
+                          if (v) {
+                            final available = await BiometricService.isAvailable();
+                            if (!available) {
+                              if (context.mounted) {
+                                context.showSnack('Face ID / biometrics not available on this device');
+                              }
+                              return;
+                            }
+                            final success = await BiometricService.authenticate();
+                            if (success) {
+                              await ref.read(biometricEnabledProvider.notifier).setEnabled(true);
+                            }
+                          } else {
+                            await ref.read(biometricEnabledProvider.notifier).setEnabled(false);
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -172,7 +198,7 @@ class SettingsScreen extends ConsumerWidget {
                         style: TextStyle(
                             fontSize: AppSizes.fontSm,
                             color: AppColors.textSecondary)),
-                    onTap: () => _confirmClear(context),
+                    onTap: () => _confirmClear(context, ref),
                   ),
                 ),
                 const SizedBox(height: 100),
@@ -184,23 +210,31 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _confirmClear(BuildContext context) {
+  void _confirmClear(BuildContext context, WidgetRef ref) {
     showCupertinoDialog(
       context: context,
-      builder: (_) => CupertinoAlertDialog(
+      builder: (ctx) => CupertinoAlertDialog(
         title: const Text('Clear All Data?'),
         content: const Text(
             'All your financial records will be permanently deleted. This cannot be undone.'),
         actions: [
           CupertinoDialogAction(
-            isDestructiveAction: true,
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Clear'),
+            isDefaultAction: true,
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
           ),
           CupertinoDialogAction(
-            isDefaultAction: true,
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            isDestructiveAction: true,
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final isar = ref.read(isarProvider);
+              await isar.writeTxn(() => isar.clear());
+              ref.invalidate(dashboardProvider);
+              if (context.mounted) {
+                context.showSnack('All data cleared');
+              }
+            },
+            child: const Text('Clear'),
           ),
         ],
       ),
@@ -222,7 +256,6 @@ class _SectionLabel extends StatelessWidget {
           fontSize: AppSizes.fontXs,
           fontWeight: FontWeight.w700,
           color: AppColors.textSecondary,
-          letterSpacing: 1.0,
         ),
       ),
     );
@@ -243,6 +276,68 @@ class _SettingCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusMd),
       ),
       child: child,
+    );
+  }
+}
+
+class _NameField extends ConsumerStatefulWidget {
+  @override
+  ConsumerState<_NameField> createState() => _NameFieldState();
+}
+
+class _NameFieldState extends ConsumerState<_NameField> {
+  late final TextEditingController _ctrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = TextEditingController(text: ref.read(userNameProvider));
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _SettingCard(
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(Icons.person_outline,
+                color: AppColors.primary, size: 18),
+          ),
+          const SizedBox(width: AppSizes.sm),
+          Expanded(
+            child: TextField(
+              controller: _ctrl,
+              decoration: const InputDecoration(
+                hintText: 'Your name',
+                border: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
+              style: const TextStyle(
+                fontSize: AppSizes.fontMd,
+                fontWeight: FontWeight.w600,
+              ),
+              textInputAction: TextInputAction.done,
+              onSubmitted: (v) =>
+                  ref.read(userNameProvider.notifier).setName(v),
+              onEditingComplete: () =>
+                  ref.read(userNameProvider.notifier).setName(_ctrl.text),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

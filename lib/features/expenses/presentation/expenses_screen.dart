@@ -13,6 +13,7 @@ import '../../../shared/widgets/delete_dialog.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/expense_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class ExpensesScreen extends ConsumerWidget {
   const ExpensesScreen({super.key});
@@ -31,7 +32,7 @@ class ExpensesScreen extends ConsumerWidget {
             backgroundColor: context.bgColor,
             border: Border.all(color: Colors.transparent),
             trailing: IconButton(
-              icon: const Icon(AppIcons.filter),
+              icon: const AppIcon(AppIcons.filter),
               onPressed: () => _showFilter(context, ref, filter),
             ),
           ),
@@ -200,9 +201,10 @@ class _ExpenseItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TTCard(
-      onTap: () =>
-          context.push('/expenses/edit/${expense.id}'),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      onTap: () => context.push('/expenses/edit/${expense.id}'),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 44,
@@ -211,16 +213,17 @@ class _ExpenseItem extends ConsumerWidget {
               color: AppColors.accentContainer,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(
+            child: Center(child: AppIcon(
               AppIcons.categoryIcon(expense.category),
               color: AppColors.accent,
-              size: 22,
-            ),
+              size: 18,
+            )),
           ),
-          const SizedBox(width: AppSizes.sm),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   expense.category,
@@ -229,7 +232,8 @@ class _ExpenseItem extends ConsumerWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                if (expense.note != null && expense.note!.isNotEmpty)
+                if (expense.note != null && expense.note!.isNotEmpty) ...[
+                  const SizedBox(height: 2),
                   Text(
                     expense.note!,
                     style: const TextStyle(
@@ -239,11 +243,14 @@ class _ExpenseItem extends ConsumerWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                ],
               ],
             ),
           ),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 expense.amount.taka,
@@ -253,6 +260,7 @@ class _ExpenseItem extends ConsumerWidget {
                   color: AppColors.error,
                 ),
               ),
+              const SizedBox(height: 2),
               Text(
                 expense.paymentMethod,
                 style: const TextStyle(
@@ -262,22 +270,22 @@ class _ExpenseItem extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(width: AppSizes.xs),
-          IconButton(
-            icon: const Icon(AppIcons.delete,
-                color: AppColors.textSecondary, size: 18),
-            onPressed: () async {
-              final ok =
-                  await showDeleteDialog(context);
+          const SizedBox(width: 4),
+          GestureDetector(
+            onTap: () async {
+              final ok = await showDeleteDialog(context);
               if (ok) {
                 await ref
                     .read(expenseNotifierProvider.notifier)
                     .delete(expense.id);
-                if (context.mounted) {
-                  context.showSnack('Expense deleted');
-                }
+                if (context.mounted) context.showSnack('Expense deleted');
               }
             },
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: AppIcon(AppIcons.delete,
+                  color: AppColors.textSecondary, size: 18),
+            ),
           ),
         ],
       ),

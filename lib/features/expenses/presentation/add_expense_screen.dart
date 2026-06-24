@@ -11,6 +11,7 @@ import '../../../data/models/expense_model.dart';
 import '../../../data/repositories/expense_repository.dart';
 import '../../../shared/widgets/custom_text_field.dart';
 import '../providers/expense_provider.dart';
+import '../../../shared/widgets/app_icon.dart';
 
 class AddExpenseScreen extends ConsumerStatefulWidget {
   final int? editId;
@@ -68,7 +69,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       appBar: AppBar(
         title: Text(isEdit ? 'Edit Expense' : 'Add Expense'),
         leading: IconButton(
-          icon: const Icon(AppIcons.back),
+          icon: const AppIcon(AppIcons.back),
           onPressed: () => context.pop(),
         ),
       ),
@@ -109,7 +110,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                 controller: TextEditingController(
                     text: _date.displayDate),
                 readOnly: true,
-                prefix: const Icon(AppIcons.calendar, size: 18),
+                prefix: const AppIcon(AppIcons.calendar, size: 18),
                 onTap: () async {
                   await showCupertinoModalPopup<void>(
                     context: context,
@@ -176,9 +177,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       ..date = _date
       ..note = _noteCtrl.text.isEmpty ? null : _noteCtrl.text
       ..paymentMethod = _paymentMethod
-      ..createdAt = model.createdAt.microsecondsSinceEpoch == 0
-          ? DateTime.now()
-          : model.createdAt;
+      ..createdAt = _editModel != null ? model.createdAt : DateTime.now();
 
     final notifier = ref.read(expenseNotifierProvider.notifier);
     if (_editModel != null) {
@@ -251,7 +250,7 @@ class _CategoryGrid extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                AppIcon(
                   AppIcons.categoryIcon(cat),
                   size: 14,
                   color: isSelected
