@@ -28,15 +28,15 @@ class AppSizes {
   static const double iconLg = 32.0;
   static const double iconXl = 48.0;
 
-  // ── Font sizes ──────────────────────────────────────────────────────
-  static const double fontXs = 11.0;
-  static const double fontSm = 13.0;
-  static const double fontMd = 15.0;
-  static const double fontLg = 17.0;
-  static const double fontXl = 20.0;
-  static const double fontXxl = 24.0;
-  static const double fontDisplay = 34.0;
-  static const double fontHero = 42.0;
+  // ── Font sizes (+2pt from Apple HIG baseline for better readability) ──
+  static const double fontXs = 13.0;
+  static const double fontSm = 15.0;
+  static const double fontMd = 17.0;
+  static const double fontLg = 19.0;
+  static const double fontXl = 22.0;
+  static const double fontXxl = 26.0;
+  static const double fontDisplay = 36.0;
+  static const double fontHero = 44.0;
 
   // ── Screen padding ──────────────────────────────────────────────────
   static const double screenPadding = 20.0;

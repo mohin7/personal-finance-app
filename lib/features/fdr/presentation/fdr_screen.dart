@@ -106,7 +106,7 @@ class FdrScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push(AppRoutes.addFdr),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }

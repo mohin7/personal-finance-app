@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
-import '../../../shared/widgets/app_icon.dart';
+import '../../../shared/widgets/glossy_icon_badge.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_icons.dart';
@@ -85,7 +84,7 @@ class MoreScreen extends StatelessWidget {
                 const SizedBox(height: AppSizes.md),
                 _SectionLabel('Lend & Borrow'),
                 _MoreItem(
-                  icon: HugeIcons.strokeRoundedAgreement01,
+                  icon: AppIcons.loan,
                   label: 'Lend & Borrow',
                   subtitle: 'Track money given or taken',
                   color: AppColors.warning,
@@ -131,7 +130,7 @@ class _SectionLabel extends StatelessWidget {
 }
 
 class _MoreItem extends StatelessWidget {
-  final List<List<dynamic>> icon;
+  final IconData icon;
   final String label;
   final String subtitle;
   final Color color;
@@ -156,15 +155,7 @@ class _MoreItem extends StatelessWidget {
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-        leading: Container(
-          width: 46,
-          height: 46,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(13),
-          ),
-          child: Center(child: AppIcon(icon, color: color, size: 17)),
-        ),
+        leading: GlossyIconBadge(icon: icon, color: color, size: 46, iconSize: 20),
         title: Text(label,
             style: const TextStyle(
                 fontSize: AppSizes.fontMd, fontWeight: FontWeight.w600)),

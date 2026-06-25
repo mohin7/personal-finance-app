@@ -83,7 +83,7 @@ class CashScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.success,
         onPressed: () => context.push(AppRoutes.addCashTransaction),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }

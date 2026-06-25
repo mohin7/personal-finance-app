@@ -19,14 +19,14 @@ final _expenseByMonthProvider =
     FutureProvider.autoDispose.family<double, DateTime>((ref, month) async {
   return ref
       .read(expenseRepositoryProvider)
-      .totalByMonth(month.month, month.year);
+      .totalByMonth(month.year, month.month);
 });
 
 final _incomeByMonthProvider =
     FutureProvider.autoDispose.family<double, DateTime>((ref, month) async {
   return ref
       .read(incomeRepositoryProvider)
-      .totalByMonth(month.month, month.year);
+      .totalByMonth(month.year, month.month);
 });
 
 final _expenseByCategoryProvider =
@@ -34,7 +34,7 @@ final _expenseByCategoryProvider =
         (ref, month) async {
   final expenses = await ref
       .read(expenseRepositoryProvider)
-      .getByMonth(month.month, month.year);
+      .getByMonth(month.year, month.month);
   final map = <String, double>{};
   for (final e in expenses) {
     map[e.category] = (map[e.category] ?? 0) + e.amount;
@@ -184,7 +184,7 @@ class _StatBox extends StatelessWidget {
   final String label;
   final AsyncValue<double> valueAsync;
   final Color color;
-  final List<List<dynamic>> icon;
+  final IconData icon;
   const _StatBox({
     required this.label,
     required this.valueAsync,
@@ -248,7 +248,7 @@ class _NetBox extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.account_balance_wallet_outlined,
+            const Icon(CupertinoIcons.creditcard,
                 color: AppColors.textSecondary, size: 18),
             const SizedBox(height: 4),
             Builder(builder: (context) {

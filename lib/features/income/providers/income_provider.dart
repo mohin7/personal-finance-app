@@ -2,31 +2,58 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/income_model.dart';
 import '../../../data/repositories/income_repository.dart';
 
+// ── Live stream of all income from Isar ──────────────────────────────────────
+
 final incomeStreamProvider =
-    StreamProvider.autoDispose<List<IncomeModel>>((ref) {
+    StreamProvider<List<IncomeModel>>((ref) {
   return ref.read(incomeRepositoryProvider).watchAll();
 });
 
-enum IncomeFilter { all, today, thisMonth }
+// ── Filter state ─────────────────────────────────────────────────────────────
+
+enum IncomeFilter { all, today, thisWeek, thisMonth }
 
 final incomeFilterProvider =
-    StateProvider<IncomeFilter>((ref) => IncomeFilter.thisMonth);
+    StateProvider<IncomeFilter>((ref) => IncomeFilter.all);
+
+// ── Derived filtered list — reactive via incomeStreamProvider ────────────────
 
 final filteredIncomesProvider =
-    FutureProvider.autoDispose<List<IncomeModel>>((ref) async {
+    Provider.autoDispose<AsyncValue<List<IncomeModel>>>((ref) {
+  final allAsync = ref.watch(incomeStreamProvider);
   final filter = ref.watch(incomeFilterProvider);
-  final repo = ref.read(incomeRepositoryProvider);
   final now = DateTime.now();
 
-  switch (filter) {
-    case IncomeFilter.today:
-      return repo.getToday();
-    case IncomeFilter.thisMonth:
-      return repo.getByMonth(now.year, now.month);
-    case IncomeFilter.all:
-      return repo.getAll();
-  }
+  return allAsync.whenData((all) {
+    switch (filter) {
+      case IncomeFilter.today:
+        final start = DateTime(now.year, now.month, now.day);
+        final end = DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+        return all
+            .where((e) => !e.date.isBefore(start) && !e.date.isAfter(end))
+            .toList();
+      case IncomeFilter.thisWeek:
+        final daysBack = now.weekday - 1;
+        final start = DateTime(now.year, now.month, now.day)
+            .subtract(Duration(days: daysBack));
+        final end = start
+            .add(const Duration(days: 7))
+            .subtract(const Duration(milliseconds: 1));
+        return all
+            .where((e) => !e.date.isBefore(start) && !e.date.isAfter(end))
+            .toList();
+      case IncomeFilter.thisMonth:
+        return all
+            .where((e) =>
+                e.date.year == now.year && e.date.month == now.month)
+            .toList();
+      case IncomeFilter.all:
+        return all;
+    }
+  });
 });
+
+// ── CRUD notifier ─────────────────────────────────────────────────────────────
 
 class IncomeNotifier extends AsyncNotifier<void> {
   @override
@@ -36,19 +63,16 @@ class IncomeNotifier extends AsyncNotifier<void> {
     model.createdAt = DateTime.now();
     await ref.read(incomeRepositoryProvider).add(model);
     ref.invalidate(incomeStreamProvider);
-    ref.invalidate(filteredIncomesProvider);
   }
 
   Future<void> save(IncomeModel model) async {
     await ref.read(incomeRepositoryProvider).update(model);
     ref.invalidate(incomeStreamProvider);
-    ref.invalidate(filteredIncomesProvider);
   }
 
   Future<void> delete(int id) async {
     await ref.read(incomeRepositoryProvider).delete(id);
     ref.invalidate(incomeStreamProvider);
-    ref.invalidate(filteredIncomesProvider);
   }
 }
 

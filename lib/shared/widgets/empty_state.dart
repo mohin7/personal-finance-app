@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_sizes.dart';
 import '../../core/extensions/extensions.dart';
-import './app_icon.dart';
 
 class EmptyState extends StatelessWidget {
-  final List<List<dynamic>> icon;
+  final IconData icon;
   final String title;
   final String? subtitle;
   final String? actionLabel;
@@ -35,7 +34,7 @@ class EmptyState extends StatelessWidget {
                 color: AppColors.primaryContainer,
                 shape: BoxShape.circle,
               ),
-              child: Center(child: AppIcon(
+              child: Center(child: Icon(
                 icon,
                 size: 36,
                 color: AppColors.primary,

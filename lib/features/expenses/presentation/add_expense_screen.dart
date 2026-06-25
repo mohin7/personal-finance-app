@@ -135,7 +135,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                 label: 'Payment Method',
                 controller: TextEditingController(text: _paymentMethod),
                 readOnly: true,
-                suffix: const Icon(Icons.arrow_drop_down),
+                suffix: const Icon(CupertinoIcons.chevron_down),
                 onTap: () => _pickPaymentMethod(context),
               ),
               const SizedBox(height: AppSizes.md),

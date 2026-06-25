@@ -26,17 +26,22 @@ class TTCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.isDark;
     final bg = color ?? context.cardColor;
+    final br = BorderRadius.circular(radius);
 
     return DecoratedBox(
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(radius),
+        borderRadius: br,
+        // Glass edge border — dark: subtle white rim, light: soft shadow rim
+        border: isDark
+            ? Border.all(color: Colors.white.withValues(alpha: 0.08), width: 0.5)
+            : Border.all(color: Colors.black.withValues(alpha: 0.04), width: 0.5),
         boxShadow: isDark
             ? [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.22),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
+                  color: Colors.black.withValues(alpha: 0.28),
+                  blurRadius: 12,
+                  offset: const Offset(0, 3),
                 ),
               ]
             : [
@@ -53,19 +58,37 @@ class TTCard extends StatelessWidget {
               ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(radius),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(radius),
-            splashColor: AppColors.accent.withValues(alpha: 0.05),
-            highlightColor: AppColors.accent.withValues(alpha: 0.03),
-            child: Padding(
-              padding: padding ?? const EdgeInsets.all(AppSizes.cardPadding),
-              child: child,
+        borderRadius: br,
+        child: Stack(
+          children: [
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: br,
+                splashColor: AppColors.accent.withValues(alpha: 0.05),
+                highlightColor: AppColors.accent.withValues(alpha: 0.03),
+                child: Padding(
+                  padding: padding ?? const EdgeInsets.all(AppSizes.cardPadding),
+                  child: child,
+                ),
+              ),
             ),
-          ),
+            // Specular top-edge glint — the glass "meniscus" highlight
+            if (isDark)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 0.5,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(radius)),
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -85,26 +108,19 @@ class TTHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDark;
     final br = BorderRadius.circular(radius);
 
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: br,
-        gradient: isDark
-            ? const LinearGradient(
-                colors: [Color(0xFF0A1628), Color(0xFF1A3A7A)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-            : const LinearGradient(
-                colors: [Clr.heroBlueDeep, Clr.heroBlueMid],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+        gradient: const LinearGradient(
+              colors: [Color(0xFF020E09), Color(0xFF004030)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
         boxShadow: [
           BoxShadow(
-            color: Clr.heroBlue.withValues(alpha: isDark ? 0.25 : 0.35),
+            color: Clr.accent.withValues(alpha: 0.28),
             blurRadius: 28,
             offset: const Offset(0, 8),
           ),

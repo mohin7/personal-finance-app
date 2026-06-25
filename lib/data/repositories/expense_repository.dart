@@ -59,6 +59,11 @@ class ExpenseRepository {
     return list.fold<double>(0.0, (s, e) => s + e.amount);
   }
 
+  Future<double> totalAll() async {
+    final list = await getAll();
+    return list.fold<double>(0.0, (s, e) => s + e.amount);
+  }
+
   Stream<List<ExpenseModel>> watchAll() =>
       _isar.expenseModels.where().sortByDateDesc().watch(fireImmediately: true);
 

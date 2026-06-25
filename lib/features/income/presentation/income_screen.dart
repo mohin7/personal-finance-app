@@ -11,6 +11,7 @@ import '../../../core/router/app_router.dart';
 import '../../../data/models/income_model.dart';
 import '../../../shared/widgets/delete_dialog.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/glossy_icon_badge.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/income_provider.dart';
 import '../../../shared/widgets/app_icon.dart';
@@ -31,6 +32,10 @@ class IncomeScreen extends ConsumerWidget {
             largeTitle: const Text('Income'),
             backgroundColor: context.bgColor,
             border: Border.all(color: Colors.transparent),
+            trailing: IconButton(
+              icon: const Icon(CupertinoIcons.refresh, size: 20),
+              onPressed: () => ref.invalidate(incomeStreamProvider),
+            ),
           ),
           SliverToBoxAdapter(
             child: SizedBox(
@@ -83,7 +88,7 @@ class IncomeScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.success,
         onPressed: () => context.push(AppRoutes.addIncome),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }
@@ -155,14 +160,11 @@ class _IncomeItem extends ConsumerWidget {
       onTap: () => context.push('/income/edit/${income.id}'),
       child: Row(
         children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.success.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Center(child: AppIcon(AppIcons.income, color: AppColors.success, size: 18)),
+          GlossyIconBadge(
+            icon: AppIcons.income,
+            color: AppColors.success,
+            size: 44,
+            iconSize: 20,
           ),
           const SizedBox(width: AppSizes.sm),
           Expanded(
@@ -213,6 +215,8 @@ extension on IncomeFilter {
         return 'All Time';
       case IncomeFilter.today:
         return 'Today';
+      case IncomeFilter.thisWeek:
+        return 'This Week';
       case IncomeFilter.thisMonth:
         return 'This Month';
     }

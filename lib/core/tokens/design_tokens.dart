@@ -24,17 +24,17 @@ abstract class Clr {
   static const heroBlueDeep = Color(0xFF1E3A8A); // deep navy
   static const heroOnBlue   = Color(0xFFFFFFFF); // white text on blue
 
-  // ── Dark surfaces — deep navy family ─────────────────────────────────
-  static const darkBg      = Color(0xFF060B14); // deep navy-black
-  static const darkCard    = Color(0xFF0F1829); // navy card
-  static const darkCardAlt = Color(0xFF162033); // slightly lighter
-  static const darkSep     = Color(0xFF1E2D45); // separator
+  // ── Dark surfaces — soft charcoal (lifted from pure black) ───────────
+  static const darkBg      = Color(0xFF141414); // soft black scaffold
+  static const darkCard    = Color(0xFF1E1E1E); // card surface
+  static const darkCardAlt = Color(0xFF282828); // elevated surface
+  static const darkSep     = Color(0xFF3A3A3A); // separator
 
-  // ── Semantic ─────────────────────────────────────────────────────────
-  static const income  = Color(0xFF22C55E); // fresh green
-  static const expense = Color(0xFFEF4444); // crisp red
-  static const warning = Color(0xFFF59E0B); // amber
-  static const info    = Color(0xFF3B82F6); // sky blue
+  // ── Semantic — Apple HIG dark mode system colors ──────────────────────
+  static const income  = Color(0xFF30D158); // systemGreen (dark)
+  static const expense = Color(0xFFFF453A); // systemRed (dark)
+  static const warning = Color(0xFFFF9F0A); // systemOrange (dark)
+  static const info    = Color(0xFF0A84FF); // systemBlue (dark)
 
   // ── Text — slate scale (cooler than iOS gray) ─────────────────────────
   static const textDark  = Color(0xFF0F172A); // slate-900
@@ -42,8 +42,8 @@ abstract class Clr {
   static const textLight = Color(0xFFCBD5E1); // slate-300
 
   // ── Nav active pill ───────────────────────────────────────────────────
-  static const navPillLight = Color(0xFF1D4ED8); // cobalt pill in light mode
-  static const navPillDark  = Color(0xFF6366F1); // indigo pill in dark mode
+  static const navPillLight = Color(0xFF006A4E); // Bangladesh Green pill in light
+  static const navPillDark  = Color(0xFF34C759); // Apple system green in dark
 
   // ── Backward compat aliases (warmBg still referenced in app_colors.dart)
   static const warmBg   = coolBg;
@@ -109,86 +109,92 @@ abstract class Shd {
 abstract class Tx {
   // ── Display — hero net worth (non-HIG, custom for finance readout) ────
   static const display = TextStyle(
-    fontSize: 42,
+    fontSize: 44,
     fontWeight: FontWeight.w700,
     height: 1.05,
+    letterSpacing: -0.88, // -2%
   );
 
-  // ── iOS HIG named styles ──────────────────────────────────────────────
+  // ── iOS HIG named styles (+2pt from standard for better readability) ──
 
-  // Large Title  34pt  Regular
+  // Large Title  36pt  Regular
   static const largeTitle = TextStyle(
-    fontSize: 34,
+    fontSize: 36,
     fontWeight: FontWeight.w400,
     height: 1.21,
+    letterSpacing: -0.72, // -2%
   );
 
-  // Title 1  28pt  Regular
+  // Title 1  30pt  Regular
   static const title1 = TextStyle(
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: FontWeight.w400,
     height: 1.21,
+    letterSpacing: -0.60, // -2%
   );
 
-  // Title 2  22pt  Semibold
+  // Title 2  24pt  Semibold
   static const title2 = TextStyle(
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: FontWeight.w600,
     height: 1.27,
+    letterSpacing: -0.48, // -2%
   );
 
-  // Title 3  20pt  Regular
+  // Title 3  22pt  Regular
   static const title3 = TextStyle(
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: FontWeight.w400,
     height: 1.25,
+    letterSpacing: -0.33, // -1.5%
   );
 
-  // Headline  17pt  Semibold
+  // Headline  19pt  Semibold
   static const headline = TextStyle(
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: FontWeight.w600,
     height: 1.29,
+    letterSpacing: -0.19, // -1%
   );
 
-  // Body  17pt  Regular
+  // Body  19pt  Regular
   static const iosBody = TextStyle(
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: FontWeight.w400,
     height: 1.29,
   );
 
-  // Callout  16pt  Regular
+  // Callout  18pt  Regular
   static const callout = TextStyle(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
     height: 1.31,
   );
 
-  // Subheadline  15pt  Regular
+  // Subheadline  17pt  Regular
   static const subhead = TextStyle(
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: FontWeight.w400,
     height: 1.33,
   );
 
-  // Footnote  13pt  Regular
+  // Footnote  15pt  Regular
   static const footnote = TextStyle(
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: FontWeight.w400,
     height: 1.38,
   );
 
-  // Caption 1  12pt  Regular
+  // Caption 1  14pt  Regular
   static const caption1 = TextStyle(
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.33,
   );
 
-  // Caption 2  11pt  Regular
+  // Caption 2  13pt  Regular
   static const caption2 = TextStyle(
-    fontSize: 11,
+    fontSize: 13,
     fontWeight: FontWeight.w400,
     height: 1.18,
   );
@@ -196,9 +202,9 @@ abstract class Tx {
   // ── Backward-compat aliases ───────────────────────────────────────────
   static const h1      = title2;
   static const h2      = headline;
-  static const h3      = TextStyle(fontSize: 15, fontWeight: FontWeight.w600, height: 1.33);
+  static const h3      = TextStyle(fontSize: 17, fontWeight: FontWeight.w600, height: 1.33, letterSpacing: -0.17);
   static const body    = subhead;
-  static const bodyMed = TextStyle(fontSize: 15, fontWeight: FontWeight.w500, height: 1.33);
+  static const bodyMed = TextStyle(fontSize: 17, fontWeight: FontWeight.w500, height: 1.33);
   static const caption = caption1;
   static const label   = caption2;
   static const micro   = caption2;

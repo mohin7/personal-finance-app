@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
 
-/// Drop-in replacement for [Icon] when using HugeIcons.
-/// Accepts the same positional + named parameters as [Icon] so call-sites
-/// change from  Icon(AppIcons.xxx, size: 20, color: c)
-///           to AppIcon(AppIcons.xxx, size: 20, color: c)
+/// Drop-in icon widget backed by CupertinoIcons / any IconData.
 class AppIcon extends StatelessWidget {
-  final List<List<dynamic>> icon;
+  final IconData icon;
   final double? size;
   final Color? color;
 
@@ -14,12 +10,10 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resolved = color ?? IconTheme.of(context).color ?? Colors.black;
-    return HugeIcon(
-      icon: icon,
+    return Icon(
+      icon,
       size: size ?? IconTheme.of(context).size ?? 24,
-      color: resolved,
-      strokeWidth: 1.6,
+      color: color ?? IconTheme.of(context).color,
     );
   }
 }

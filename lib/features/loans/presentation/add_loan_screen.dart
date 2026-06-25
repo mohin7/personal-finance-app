@@ -152,7 +152,7 @@ class _AddLoanScreenState extends ConsumerState<AddLoanScreen> {
               decoration: InputDecoration(
                 labelText: isLent ? 'Lent to' : 'Borrowed from',
                 hintText: 'Person name',
-                prefixIcon: const Icon(Icons.person_outline),
+                prefixIcon: const Icon(CupertinoIcons.person),
                 filled: true,
                 fillColor: context.cardColor,
                 border: OutlineInputBorder(
@@ -181,7 +181,7 @@ class _AddLoanScreenState extends ConsumerState<AddLoanScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_today_outlined,
+                    const Icon(CupertinoIcons.calendar,
                         size: 18, color: AppColors.textSecondary),
                     const SizedBox(width: AppSizes.sm),
                     Text(fmt.format(_date),
@@ -201,7 +201,7 @@ class _AddLoanScreenState extends ConsumerState<AddLoanScreen> {
               decoration: InputDecoration(
                 labelText: 'Note (optional)',
                 hintText: 'What is it for?',
-                prefixIcon: const Icon(Icons.notes_outlined),
+                prefixIcon: const Icon(CupertinoIcons.doc_text),
                 filled: true,
                 fillColor: context.cardColor,
                 border: OutlineInputBorder(

@@ -12,6 +12,7 @@ import '../../../core/router/app_router.dart';
 import '../../../core/tokens/design_tokens.dart';
 import '../../../shared/providers/user_provider.dart';
 import '../../../shared/widgets/app_icon.dart';
+import '../../../shared/widgets/glossy_icon_badge.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/dashboard_provider.dart';
 
@@ -40,7 +41,10 @@ class DashboardScreen extends ConsumerWidget {
       body: RefreshIndicator(
         color: Clr.accent,
         backgroundColor: isDark ? Clr.darkCard : Colors.white,
-        onRefresh: () => ref.refresh(dashboardProvider.future),
+        onRefresh: () {
+          ref.invalidate(allActivityProvider);
+          return ref.refresh(dashboardProvider.future);
+        },
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
@@ -142,14 +146,14 @@ class _Header extends StatelessWidget {
               const SizedBox(width: 8),
               // Notification bell
               _IconBtn(
-                icon: Icons.notifications_none_rounded,
+                icon: CupertinoIcons.bell,
                 isDark: isDark,
                 onTap: () {},
               ),
               const SizedBox(width: 6),
               // Settings
               _IconBtn(
-                icon: Icons.tune_rounded,
+                icon: CupertinoIcons.slider_horizontal_3,
                 isDark: isDark,
                 onTap: () => context.push(AppRoutes.settings),
               ),
@@ -253,8 +257,8 @@ class _HeroBalance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final todayNet = data.todayIncome - data.todayExpense;
-    final isPositive = todayNet >= 0;
+    final totalNet = data.totalIncome - data.totalExpense;
+    final isPositive = totalNet >= 0;
     final date = DateFormat('EEEE, d MMM').format(DateTime.now());
 
     final onCardMid  = Colors.white.withValues(alpha: 0.55);
@@ -265,20 +269,14 @@ class _HeroBalance extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Rad.xl),
-        gradient: isDark
-            ? const LinearGradient(
-                colors: [Color(0xFF0A0F1E), Color(0xFF0E2044)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-            : const LinearGradient(
-                colors: [Color(0xFF0F172A), Color(0xFF1D4ED8)],
+        gradient: const LinearGradient(
+                colors: [Color(0xFF020E09), Color(0xFF004030)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1D4ED8).withValues(alpha: isDark ? 0.18 : 0.32),
+            color: Clr.accent.withValues(alpha: 0.22),
             blurRadius: 28,
             offset: const Offset(0, 8),
           ),
@@ -298,7 +296,7 @@ class _HeroBalance extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text('TODAY',
+                  Text('TOTAL',
                       style: Tx.micro.copyWith(
                           color: onCardMid)),
                   const Spacer(),
@@ -328,7 +326,7 @@ class _HeroBalance extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         TweenAnimationBuilder<double>(
-                          tween: Tween(begin: 0, end: data.todayIncome),
+                          tween: Tween(begin: 0, end: data.totalIncome),
                           duration: const Duration(milliseconds: 900),
                           curve: Curves.easeOutCubic,
                           builder: (_, v, __) => FittedBox(
@@ -367,7 +365,7 @@ class _HeroBalance extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         TweenAnimationBuilder<double>(
-                          tween: Tween(begin: 0, end: data.todayExpense),
+                          tween: Tween(begin: 0, end: data.totalExpense),
                           duration: const Duration(milliseconds: 900),
                           curve: Curves.easeOutCubic,
                           builder: (_, v, __) => FittedBox(
@@ -389,11 +387,11 @@ class _HeroBalance extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text('Net Today',
+                  Text('Net Balance',
                       style: Tx.bodyMed.copyWith(color: onCardMid)),
                   Expanded(
                     child: TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0, end: todayNet.abs()),
+                      tween: Tween(begin: 0, end: totalNet.abs()),
                       duration: const Duration(milliseconds: 900),
                       curve: Curves.easeOutCubic,
                       builder: (_, v, __) => Text(
@@ -437,9 +435,6 @@ class _QuickActions extends StatelessWidget {
     return Row(
       children: actions.map((a) {
         final (icon, label, route, color) = a;
-        final iconBg = isDark
-            ? color.withValues(alpha: 0.15)
-            : color.withValues(alpha: 0.10);
         return Expanded(
           child: _PressableTile(
             onTap: () {
@@ -448,16 +443,7 @@ class _QuickActions extends StatelessWidget {
             },
             child: Column(
               children: [
-                Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: iconBg,
-                    shape: BoxShape.circle,
-                    boxShadow: Shd.subtle(isDark),
-                  ),
-                  child: Center(child: AppIcon(icon, color: color, size: 22)),
-                ),
+                GlossyIconBadge(icon: icon, color: color, size: 52, iconSize: 23),
                 const SizedBox(height: 7),
                 Text(
                   label,
@@ -475,6 +461,29 @@ class _QuickActions extends StatelessWidget {
   }
 }
 
+String _activityTimeLabel(DateTime time) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final yesterday = today.subtract(const Duration(days: 1));
+  final itemDay = DateTime(time.year, time.month, time.day);
+  final timeStr = DateFormat('h:mm a').format(time);
+
+  if (itemDay.year == today.year &&
+      itemDay.month == today.month &&
+      itemDay.day == today.day) {
+    return timeStr;
+  }
+  if (itemDay.year == yesterday.year &&
+      itemDay.month == yesterday.month &&
+      itemDay.day == yesterday.day) {
+    return 'Yesterday · $timeStr';
+  }
+  if (today.difference(itemDay).inDays < 7) {
+    return '${DateFormat('EEE').format(time)} · $timeStr';
+  }
+  return '${DateFormat('MMM d').format(time)} · $timeStr';
+}
+
 // ── Today Activity Section ────────────────────────────────────────────────────
 
 class _TodayActivitySection extends ConsumerWidget {
@@ -483,7 +492,7 @@ class _TodayActivitySection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activityAsync = ref.watch(todayActivityProvider);
+    final activityAsync = ref.watch(allActivityProvider);
     final onSurface = isDark ? Colors.white : Clr.textDark;
     final sep = isDark
         ? Colors.white.withValues(alpha: 0.07)
@@ -495,7 +504,7 @@ class _TodayActivitySection extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Today\'s Activity',
+            Text('All Activities',
                 style: Tx.h3.copyWith(color: onSurface)),
             GestureDetector(
               onTap: () => context.push(AppRoutes.expenses),
@@ -514,47 +523,40 @@ class _TodayActivitySection extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(
                     vertical: 28, horizontal: Spc.card),
                 child: Center(
-                  child: Text('No transactions today',
+                  child: Text('No transactions yet',
                       style: Tx.body.copyWith(color: Clr.textMid)),
                 ),
               );
             }
-            final visible = items.take(6).toList();
             return TTCard(
               radius: Rad.xl,
               padding: EdgeInsets.zero,
               child: Column(
-                children: visible.asMap().entries.map((e) {
+                children: items.asMap().entries.map((e) {
                   final i = e.key;
                   final item = e.value;
                   final isIncome = item.type == 'income';
                   final itemColor = isIncome ? Clr.income : Clr.expense;
-                  final time =
-                      '${item.time.hour.toString().padLeft(2, '0')}:${item.time.minute.toString().padLeft(2, '0')}';
+                  final iconData = isIncome
+                      ? AppIcons.income
+                      : AppIcons.categoryIcon(item.label);
+                  final iconColor = isIncome
+                      ? Clr.income
+                      : AppIcons.categoryColor(item.label);
+                  final timeLabel = _activityTimeLabel(item.time);
 
                   return Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: Spc.card, vertical: 12),
+                            horizontal: Spc.card, vertical: 10),
                         child: Row(
                           children: [
-                            Container(
-                              width: 36,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                color: itemColor.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: AppIcon(
-                                  isIncome
-                                      ? AppIcons.income
-                                      : AppIcons.expenses,
-                                  color: itemColor,
-                                  size: 16,
-                                ),
-                              ),
+                            GlossyIconBadge(
+                              icon: iconData,
+                              color: iconColor,
+                              size: 40,
+                              iconSize: 18,
                             ),
                             const SizedBox(width: 12),
                             Expanded(
@@ -566,7 +568,8 @@ class _TodayActivitySection extends ConsumerWidget {
                                           color: onSurface),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis),
-                                  Text(time,
+                                  const SizedBox(height: 2),
+                                  Text(timeLabel,
                                       style: Tx.caption
                                           .copyWith(color: Clr.textMid)),
                                 ],
@@ -581,7 +584,7 @@ class _TodayActivitySection extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      if (i < visible.length - 1)
+                      if (i < items.length - 1)
                         Divider(
                             height: 1, thickness: 0.5, color: sep,
                             indent: Spc.card + 36 + 12,
@@ -622,12 +625,12 @@ class _AssetStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pills = [
-      (AppIcons.cash,        'Cash',   data.totalCash,           AppRoutes.cash,           const Color(0xFF10B981)),
-      (AppIcons.bank,        'Banks',  data.totalBank,           AppRoutes.banks,           const Color(0xFF3B82F6)),
-      (AppIcons.dps,         'DPS',    data.totalDps,            AppRoutes.dps,             const Color(0xFFF59E0B)),
-      (AppIcons.fdr,         'FDR',    data.totalFdr,            AppRoutes.fdr,             const Color(0xFF8B5CF6)),
-      (AppIcons.sanchayapatra,'Bonds', data.totalSanchayapatra,  AppRoutes.sanchayapatra,   const Color(0xFF06B6D4)),
-      (AppIcons.investments, 'Invest', data.totalInvestments,    AppRoutes.investments,     const Color(0xFFF97316)),
+      (AppIcons.cash,        'Cash',   data.totalCash,           AppRoutes.cash,           const Color(0xFF30D158)), // systemGreen
+      (AppIcons.bank,        'Banks',  data.totalBank,           AppRoutes.banks,           const Color(0xFF0A84FF)), // systemBlue
+      (AppIcons.dps,         'DPS',    data.totalDps,            AppRoutes.dps,             const Color(0xFFFF9F0A)), // systemOrange
+      (AppIcons.fdr,         'FDR',    data.totalFdr,            AppRoutes.fdr,             const Color(0xFFBF5AF2)), // systemPurple
+      (AppIcons.sanchayapatra,'Bonds', data.totalSanchayapatra,  AppRoutes.sanchayapatra,   const Color(0xFF5AC8FA)), // systemCyan
+      (AppIcons.investments, 'Invest', data.totalInvestments,    AppRoutes.investments,     const Color(0xFF5E5CE6)), // systemIndigo
     ];
 
     final sw = MediaQuery.of(context).size.width;
@@ -668,7 +671,7 @@ class _AssetStrip extends StatelessWidget {
 }
 
 class _AssetPill extends StatelessWidget {
-  final List<List<dynamic>> icon;
+  final IconData icon;
   final String label;
   final double amount;
   final String route;

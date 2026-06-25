@@ -81,7 +81,7 @@ class BanksScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.info,
         onPressed: () => context.push(AppRoutes.addBank),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }

@@ -92,7 +92,7 @@ extension ContextExt on BuildContext {
       isDark ? AppColors.backgroundDark : AppColors.backgroundLight;
   Color get primaryText =>
       isDark ? AppColors.textPrimaryDark : AppColors.textPrimary;
-  Color get secondaryText => AppColors.textSecondary;
+  Color get secondaryText => isDark ? AppColors.textSecondaryDark : AppColors.textSecondary;
 
   void showSnack(String msg, {bool isError = false}) {
     ScaffoldMessenger.of(this).showSnackBar(

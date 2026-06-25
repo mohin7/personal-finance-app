@@ -89,7 +89,7 @@ class BudgetsScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.warning,
         onPressed: () => context.push(AppRoutes.addBudget),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }

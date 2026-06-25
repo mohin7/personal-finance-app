@@ -11,6 +11,7 @@ import '../../../core/router/app_router.dart';
 import '../../../data/models/expense_model.dart';
 import '../../../shared/widgets/delete_dialog.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../shared/widgets/glossy_icon_badge.dart';
 import '../../../shared/widgets/tt_card.dart';
 import '../providers/expense_provider.dart';
 import '../../../shared/widgets/app_icon.dart';
@@ -31,9 +32,18 @@ class ExpensesScreen extends ConsumerWidget {
             largeTitle: const Text('Expenses'),
             backgroundColor: context.bgColor,
             border: Border.all(color: Colors.transparent),
-            trailing: IconButton(
-              icon: const AppIcon(AppIcons.filter),
-              onPressed: () => _showFilter(context, ref, filter),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(CupertinoIcons.refresh, size: 20),
+                  onPressed: () => ref.invalidate(expenseStreamProvider),
+                ),
+                IconButton(
+                  icon: const AppIcon(AppIcons.filter),
+                  onPressed: () => _showFilter(context, ref, filter),
+                ),
+              ],
             ),
           ),
           SliverToBoxAdapter(
@@ -62,7 +72,7 @@ class ExpensesScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push(AppRoutes.addExpense),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }
@@ -114,7 +124,7 @@ class _FilterChips extends StatelessWidget {
               selected: selected,
               onSelected: (_) =>
                   ref.read(expenseFilterProvider.notifier).state = f,
-              selectedColor: AppColors.primary,
+              selectedColor: AppColors.error,
               labelStyle: TextStyle(
                 color: selected ? Colors.white : null,
                 fontWeight: FontWeight.w500,
@@ -206,18 +216,11 @@ class _ExpenseItem extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.accentContainer,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(child: AppIcon(
-              AppIcons.categoryIcon(expense.category),
-              color: AppColors.accent,
-              size: 18,
-            )),
+          GlossyIconBadge(
+            icon: AppIcons.categoryIcon(expense.category),
+            color: AppIcons.categoryColor(expense.category),
+            size: 44,
+            iconSize: 20,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -300,6 +303,8 @@ extension on ExpenseFilter {
         return 'All Time';
       case ExpenseFilter.today:
         return 'Today';
+      case ExpenseFilter.thisWeek:
+        return 'This Week';
       case ExpenseFilter.thisMonth:
         return 'This Month';
     }

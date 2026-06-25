@@ -18,11 +18,8 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider);
     final biometricEnabled = ref.watch(biometricEnabledProvider);
-    final isDark = themeMode == ThemeMode.dark ||
-        (themeMode == ThemeMode.system &&
-            MediaQuery.platformBrightnessOf(context) == Brightness.dark);
+    final themeMode = ref.watch(themeModeProvider);
 
     return Scaffold(
       backgroundColor: context.bgColor,
@@ -49,42 +46,49 @@ class SettingsScreen extends ConsumerWidget {
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.12),
+                          color: AppColors.warning.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(Icons.dark_mode_outlined,
-                            color: AppColors.primary, size: 18),
+                        child: const Icon(CupertinoIcons.sun_max_fill,
+                            color: AppColors.warning, size: 18),
                       ),
                       const SizedBox(width: AppSizes.sm),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Dark Mode',
-                                style: TextStyle(
-                                    fontSize: AppSizes.fontMd,
-                                    fontWeight: FontWeight.w600)),
-                            Text(
-                                isDark ? 'Dark theme active' : 'Light theme active',
-                                style: const TextStyle(
-                                    fontSize: AppSizes.fontSm,
-                                    color: AppColors.textSecondary)),
-                          ],
-                        ),
+                      const Expanded(
+                        child: Text('Theme',
+                            style: TextStyle(
+                                fontSize: AppSizes.fontMd,
+                                fontWeight: FontWeight.w600)),
                       ),
-                      CupertinoSwitch(
-                        value: isDark,
-                        activeTrackColor: AppColors.primary,
-                        onChanged: (v) => ref
-                            .read(themeModeProvider.notifier)
-                            .toggle(),
+                      CupertinoSlidingSegmentedControl<ThemeMode>(
+                        groupValue: themeMode,
+                        children: const {
+                          ThemeMode.light: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('Light',
+                                style: TextStyle(fontSize: 13)),
+                          ),
+                          ThemeMode.system: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('Auto',
+                                style: TextStyle(fontSize: 13)),
+                          ),
+                          ThemeMode.dark: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('Dark',
+                                style: TextStyle(fontSize: 13)),
+                          ),
+                        },
+                        onValueChanged: (v) {
+                          if (v != null) {
+                            ref
+                                .read(themeModeProvider.notifier)
+                                .setTheme(v);
+                          }
+                        },
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: AppSizes.md),
-                _SectionLabel('Theme'),
-                _ThemeModeSelector(current: themeMode, ref: ref),
                 const SizedBox(height: AppSizes.md),
                 _SectionLabel('Security'),
                 _SettingCard(
@@ -153,7 +157,7 @@ class SettingsScreen extends ConsumerWidget {
                               AppColors.primary.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(Icons.info_outline,
+                        child: const Icon(CupertinoIcons.info,
                             color: AppColors.primary, size: 18),
                       ),
                       const SizedBox(width: AppSizes.sm),
@@ -186,7 +190,7 @@ class SettingsScreen extends ConsumerWidget {
                         color: AppColors.error.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(Icons.delete_forever_outlined,
+                      child: const Icon(CupertinoIcons.trash,
                           color: AppColors.error, size: 18),
                     ),
                     title: const Text('Clear All Data',
@@ -312,7 +316,7 @@ class _NameFieldState extends ConsumerState<_NameField> {
               color: AppColors.primary.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(Icons.person_outline,
+            child: const Icon(CupertinoIcons.person,
                 color: AppColors.primary, size: 18),
           ),
           const SizedBox(width: AppSizes.sm),
@@ -337,34 +341,6 @@ class _NameFieldState extends ConsumerState<_NameField> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ThemeModeSelector extends StatelessWidget {
-  final ThemeMode current;
-  final WidgetRef ref;
-  const _ThemeModeSelector({required this.current, required this.ref});
-
-  @override
-  Widget build(BuildContext context) {
-    return _SettingCard(
-      child: CupertinoSegmentedControl<ThemeMode>(
-        children: const {
-          ThemeMode.light: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              child: Text('Light', style: TextStyle(fontSize: 13))),
-          ThemeMode.system: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              child: Text('System', style: TextStyle(fontSize: 13))),
-          ThemeMode.dark: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              child: Text('Dark', style: TextStyle(fontSize: 13))),
-        },
-        groupValue: current,
-        onValueChanged: (v) =>
-            ref.read(themeModeProvider.notifier).setTheme(v),
       ),
     );
   }

@@ -107,7 +107,7 @@ class SanchayapatraScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.accent,
         onPressed: () => context.push(AppRoutes.addSanchayapatra),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }

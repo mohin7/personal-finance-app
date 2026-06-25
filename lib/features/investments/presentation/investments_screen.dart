@@ -86,7 +86,7 @@ class InvestmentsScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.warning,
         onPressed: () => context.push(AppRoutes.addInvestment),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }

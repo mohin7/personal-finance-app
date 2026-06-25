@@ -1,4 +1,3 @@
-import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_icons.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../core/extensions/extensions.dart';
 import '../../../core/router/app_router.dart';
@@ -73,7 +73,7 @@ class _LoansScreenState extends ConsumerState<LoansScreen> {
               if (loans.isEmpty) {
                 return SliverFillRemaining(
                   child: EmptyState(
-                    icon: HugeIcons.strokeRoundedAgreement01,
+                    icon: AppIcons.loan,
                     title: _tab == 0 ? 'No lent records' : 'No borrow records',
                     subtitle: _tab == 0
                         ? 'Track money you gave to others'
@@ -123,7 +123,7 @@ class _LoansScreenState extends ConsumerState<LoansScreen> {
             _tab == 0 ? AppColors.warning : AppColors.error,
         onPressed: () => context.push(
             '${AppRoutes.addLoan}?type=${_tab == 0 ? 'lent' : 'borrowed'}'),
-        child: const Icon(Icons.add),
+        child: const Icon(CupertinoIcons.add),
       ),
     );
   }
@@ -247,8 +247,8 @@ class _LoanCard extends ConsumerWidget {
             ),
             child: Icon(
               loan.isSettled
-                  ? Icons.check_circle_outline
-                  : Icons.handshake_outlined,
+                  ? CupertinoIcons.checkmark_circle
+                  : CupertinoIcons.person_2,
               color: loan.isSettled ? AppColors.success : color,
               size: 22,
             ),
@@ -323,7 +323,7 @@ class _LoanCard extends ConsumerWidget {
             ],
           ),
           IconButton(
-            icon: const Icon(Icons.delete_outline,
+            icon: const Icon(CupertinoIcons.trash,
                 color: AppColors.textSecondary, size: 18),
             onPressed: () async {
               if (await showDeleteDialog(context)) {

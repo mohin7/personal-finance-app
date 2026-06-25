@@ -15,17 +15,17 @@ class AppColors {
   static const Color primaryDark = accentDim;
   static const Color primaryContainer = accentContainer;
 
-  // ── Semantic ────────────────────────────────────────────────────────────
-  static const Color success = Color(0xFF22C55E);  // fresh green
-  static const Color error   = Color(0xFFEF4444);  // crisp red
-  static const Color warning = Color(0xFFF59E0B);  // amber
-  static const Color info    = Color(0xFF3B82F6);  // sky blue
+  // ── Semantic — Apple HIG dark mode system colors ────────────────────────
+  static const Color success = Color(0xFF30D158); // systemGreen (dark)
+  static const Color error   = Color(0xFFFF453A); // systemRed (dark)
+  static const Color warning = Color(0xFFFF9F0A); // systemOrange (dark)
+  static const Color info    = Color(0xFF0A84FF); // systemBlue (dark)
 
-  // ── Dark palette — deep navy ─────────────────────────────────────────
-  static const Color ink       = Color(0xFF060B14); // deep navy-black
-  static const Color inkRaised = Color(0xFF0F1829); // navy elevated
-  static const Color inkHigh   = Color(0xFF162033); // higher surface
-  static const Color inkPanel  = Color(0xFF1E2D45); // panel/card
+  // ── Dark palette — soft charcoal (lifted from pure black) ────────────
+  static const Color ink       = Color(0xFF141414); // soft black scaffold
+  static const Color inkRaised = Color(0xFF1E1E1E); // card surface
+  static const Color inkHigh   = Color(0xFF282828); // elevated surface
+  static const Color inkPanel  = Color(0xFF333333); // top-elevated surface
 
   // ── Light palette — cool blue-tinted ─────────────────────────────────
   static const Color warmBg = Color(0xFFF0F5FF);   // ice-blue scaffold
@@ -43,7 +43,7 @@ class AppColors {
   static const Color cardLight            = snow;
   static const Color cardDark             = inkRaised;
   static const Color separator            = fog;
-  static const Color separatorDark        = Color(0xFF1E2D45);
+  static const Color separatorDark        = Color(0xFF3A3A3A); // soft separator
 
   // ── Red accent aliases ─────────────────────────────────────────────────
   static const Color accentRed      = Color(0xFFEF4444);
@@ -56,16 +56,16 @@ class AppColors {
   static const Color textPrimaryDark  = Color(0xFFFFFFFF);
   static const Color textSecondaryDark = Color(0xFF94A3B8); // slate-400
 
-  // ── Chart palette ──────────────────────────────────────────────────────
+  // ── Chart palette — Apple HIG dark mode system colors ─────────────────
   static const List<Color> chartColors = [
-    Color(0xFF2563EB), // blue
-    Color(0xFF006A4E), // Bangladesh green
-    Color(0xFF22C55E), // fresh green
-    Color(0xFFEF4444), // red
-    Color(0xFFF59E0B), // amber
-    Color(0xFF8B5CF6), // violet
-    Color(0xFFEC4899), // pink
-    Color(0xFF06B6D4), // cyan
+    Color(0xFF0A84FF), // systemBlue
+    Color(0xFF30D158), // systemGreen (Bangladesh brand)
+    Color(0xFFFF9F0A), // systemOrange
+    Color(0xFFFF453A), // systemRed
+    Color(0xFFBF5AF2), // systemPurple
+    Color(0xFF5E5CE6), // systemIndigo
+    Color(0xFFFF375F), // systemPink
+    Color(0xFF5AC8FA), // systemTeal/Cyan
   ];
 
   // ── Gradients ──────────────────────────────────────────────────────────

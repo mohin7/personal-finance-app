@@ -52,6 +52,11 @@ class IncomeRepository {
     return list.fold<double>(0.0, (s, e) => s + e.amount);
   }
 
+  Future<double> totalAll() async {
+    final list = await getAll();
+    return list.fold<double>(0.0, (s, e) => s + e.amount);
+  }
+
   Stream<List<IncomeModel>> watchAll() =>
       _isar.incomeModels.where().sortByDateDesc().watch(fireImmediately: true);
 

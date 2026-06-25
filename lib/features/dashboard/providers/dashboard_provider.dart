@@ -18,8 +18,8 @@ class DashboardSummary {
   final double totalInvestments;
   final double monthlyIncome;
   final double monthlyExpense;
-  final double todayIncome;
-  final double todayExpense;
+  final double totalIncome;
+  final double totalExpense;
 
   const DashboardSummary({
     this.totalCash = 0,
@@ -30,8 +30,8 @@ class DashboardSummary {
     this.totalInvestments = 0,
     this.monthlyIncome = 0,
     this.monthlyExpense = 0,
-    this.todayIncome = 0,
-    this.todayExpense = 0,
+    this.totalIncome = 0,
+    this.totalExpense = 0,
   });
 
   double get netWorth =>
@@ -70,8 +70,8 @@ final dashboardProvider =
     ref.read(investmentRepositoryProvider).totalCurrentValue(),
     ref.read(incomeRepositoryProvider).totalByMonth(year, month),
     ref.read(expenseRepositoryProvider).totalByMonth(year, month),
-    ref.read(incomeRepositoryProvider).totalToday(),
-    ref.read(expenseRepositoryProvider).totalToday(),
+    ref.read(incomeRepositoryProvider).totalAll(),
+    ref.read(expenseRepositoryProvider).totalAll(),
   ]);
 
   return DashboardSummary(
@@ -83,8 +83,8 @@ final dashboardProvider =
     totalInvestments: results[5],
     monthlyIncome: results[6],
     monthlyExpense: results[7],
-    todayIncome: results[8],
-    todayExpense: results[9],
+    totalIncome: results[8],
+    totalExpense: results[9],
   );
 });
 
@@ -103,10 +103,10 @@ class TodayActivity {
   });
 }
 
-final todayActivityProvider =
+final allActivityProvider =
     FutureProvider.autoDispose<List<TodayActivity>>((ref) async {
-  final expenses = await ref.read(expenseRepositoryProvider).getToday();
-  final incomes = await ref.read(incomeRepositoryProvider).getToday();
+  final expenses = await ref.read(expenseRepositoryProvider).getAll();
+  final incomes = await ref.read(incomeRepositoryProvider).getAll();
 
   final items = <TodayActivity>[
     ...expenses.map((e) => TodayActivity(

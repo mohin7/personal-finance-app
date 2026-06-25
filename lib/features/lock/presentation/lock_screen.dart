@@ -58,11 +58,11 @@ class _LockScreenState extends ConsumerState<LockScreen> {
                   color: Colors.white.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.lock_rounded, color: Colors.white, size: 32),
+                child: const Icon(CupertinoIcons.lock_fill, color: Colors.white, size: 32),
               ),
               const SizedBox(height: 24),
               const Text(
-                'ExpenseTrack',
+                'TakaTrack',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 28,
@@ -93,7 +93,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.fingerprint,
+                      Icon(CupertinoIcons.hand_draw,
                           color: AppColors.primary, size: 22),
                       const SizedBox(width: 8),
                       Text(
