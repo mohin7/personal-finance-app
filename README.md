@@ -1,4 +1,4 @@
-# TakaTrack — Personal Finance for Bangladesh
+# AddsFree Expense-Tracker — Personal Finance for Bangladesh
 
 A production-ready Flutter app for tracking personal finances, built specifically for Bangladeshi users. Manage daily expenses, income, bank accounts, savings instruments (DPS, FDR, Sanchayapatra), investments, and monthly budgets — all stored locally on device with no account required.
 
